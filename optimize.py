@@ -8,14 +8,9 @@ from mode_overlap_integral import curModeOverlap
 from numpy import pi, array
 from opt_methods import hillclimb_shifts
 
-if __name__ == '__main__':
-    image = imread('image3.bmp')
+def hc_optimize(image,p0):
     mo_fun = curModeOverlap(image)
-
-    # center of image, fairly small, 0 degree rotation
-    initial_guess = [160, 128, 20, 10, 0]
-    
-    p = initial_guess
+    p = p0
     shifts = [array([[0,1,0,0,0],        # shift centers
                      [1,1,0,0,0],
                      [1,0,0,0,0],
@@ -38,6 +33,14 @@ if __name__ == '__main__':
         p = hillclimb_shifts(mo_fun,p,shifts[i])
     
     mo_max = mo_fun(*p)
+    return mo_max, p
+
+if __name__ == '__main__':
+    image = imread('image1.bmp')
+
+    # center of image, fairly small, 0 degree rotation
+    initial_guess = [160, 128, 20, 10, 0]
+    mo_max, p = hc_optimize(image, initial_guess)
     
     print('\nFinal result:')
     print('Overlap Integral = ' + str(mo_max))
