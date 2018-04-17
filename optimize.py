@@ -6,30 +6,7 @@
 from matplotlib.pyplot import imread
 from mode_overlap_integral import curModeOverlap
 from numpy import pi, array
-
-def hillclimb(fun,p_init,p_shifts):
-    """ Maximize fun, starting at p_init, iteratively over the set of
-    parameter shifts in p_shifts
-    """
-    f_max = fun(*p_init)
-    p = p_init
-    while True:
-        print('p= ' + str(p))
-        f_new = 0
-        p_new = p
-        for i in range(p_shifts.shape[0]):
-            f_val = fun(*(p+p_shifts[i]))
-            if f_val > f_max:
-                f_new = f_val
-                p_new = p+p_shifts[i]
-        
-        if f_new > f_max:
-            f_max = f_new
-            p = p_new
-        else:
-            break
-    
-    return p
+from opt_methods import hillclimb_shifts
 
 if __name__ == '__main__':
     image = imread('image3.bmp')
@@ -58,7 +35,7 @@ if __name__ == '__main__':
                      [0,0,-1,0,0],
                      [0,0,-1,1,0]])]
     for i in range(len(shifts)):
-        p = hillclimb(mo_fun,p,shifts[i])
+        p = hillclimb_shifts(mo_fun,p,shifts[i])
     
     mo_max = mo_fun(*p)
     
