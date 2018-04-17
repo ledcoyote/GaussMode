@@ -8,7 +8,7 @@ from matplotlib.pyplot import imread
 from numpy import zeros
 from traits.api import HasTraits, Instance, String, Button, Array
 from traitsui.api import Item, View, Group
-from chaco.api import ArrayPlotData, Plot, gray
+from chaco.api import ArrayPlotData, Plot, jet
 from enable.api import ComponentEditor
 from optimize import hc_optimize
 
@@ -48,7 +48,7 @@ class PlotArea(HasTraits):
         self.plotdata = ArrayPlotData(imagedata=im_data)
 
         plot_area = Plot(self.plotdata)
-        self.renderer = plot_area.img_plot('imagedata', colormap=gray)
+        self.renderer = plot_area.img_plot('imagedata', colormap=jet)
         return plot_area
 
     def _load_button_fired(self):
